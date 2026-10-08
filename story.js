@@ -245,6 +245,9 @@
     if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();goBy(event.key==='ArrowRight'?1:-1);}
     if(event.key==='Escape'&&transaction){event.preventDefault();finishTurn(false);}
   });
+  document.querySelector('.skip-link').addEventListener('click',event=>{
+    event.preventDefault();$('page-title').focus({preventScroll:true});$('page-title').scrollIntoView({block:'start',behavior:'instant'});
+  });
   addEventListener('hashchange',cancelForLocation);
   addEventListener('pagehide',()=>{if(transaction)finishTurn(false);save();});
   $('motion-setting').addEventListener('change',event=>{saved.motion=event.target.value;applySettings();save();});

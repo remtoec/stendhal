@@ -17,3 +17,8 @@
 @media(max-width:720px){.scene{height:auto;aspect-ratio:1.1;max-width:350px}.book[data-kind="cover"] .scene{height:auto;aspect-ratio:1.07}.leaf-front .scene{height:auto;aspect-ratio:1.1}.reading-edition{padding:30px 23px;font-size:17px}.reading-edition h1{font-size:32px}.reading-edition h2{font-size:25px}}
 @media print{.reading-edition{max-width:none;padding:0;background:white;font-size:11pt}.reading-edition nav,.edition-return,.reading-edition footer,.reading-edition header>a{display:none}.reading-edition section{break-inside:auto}.reading-edition h2,.reading-edition h3{break-after:avoid}.reading-edition a{color:inherit}}
 .paper-corner{position:absolute;bottom:0;width:46px;height:46px;z-index:8;touch-action:pan-y;user-select:none;color:#8d7a51;display:flex;align-items:flex-end;justify-content:flex-end;padding:5px 7px;background:linear-gradient(135deg,transparent 49%,#e2d4b7 50%,#f9f3e5 78%);border-bottom-right-radius:8px}.right-corner{right:0}.left-corner{left:0;transform:scaleX(-1)}.left-corner span{transform:scaleX(-1)}.paper-corner span{font-size:14px}.paper-corner:disabled{visibility:hidden}.paper-corner:hover:not(:disabled){background:linear-gradient(135deg,transparent 44%,#d8c5a2 45%,#f7edda 80%)}.book.is-turning .paper-corner{opacity:0}
+/* Only the exposed bottom edge has stacked sheets; the reading surface stays smooth. */
+.page-edge{inset:auto -3px -6px 1px;height:8px}
+.sprite[data-sprite="castle"]{clip-path:inset(0 0 0 7%)}
+@media(max-width:720px){.scene,.leaf-front .scene{height:230px;aspect-ratio:auto}.book[data-kind="cover"] .scene{height:250px;aspect-ratio:auto}}
+@media(max-width:370px){.scene,.leaf-front .scene{height:205px}.book[data-kind="cover"] .scene{height:225px}}
