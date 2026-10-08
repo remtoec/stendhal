@@ -46,3 +46,10 @@ test('no-script edition contains every paragraph, reveal, perspective and crysta
   for(const p of BOOK.pages){assert.ok(html.includes(`id="${p.id}"`));for(const text of [...p.paragraphs,...(p.reveal||[]),...(p.perspectives||[]).map(q=>q.text),...(p.crystals||[]).map(q=>q.detail)])assert.ok(html.includes(text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;')),p.id);}
   assert.ok(!html.includes('<script'));
 });
+test('the entry page pins CSS and scripts to their content digest to avoid mixed deploys',()=>{
+  const {createHash}=require('node:crypto');const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
+  for(const file of ['style.css','content.js','scenes.js','reader-model.js','story.js']){
+    const digest=createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex').slice(0,12);
+    assert.ok(index.includes(file+'?v='+digest),'Run node scripts/build-site.js after editing '+file);
+  }
+});

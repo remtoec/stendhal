@@ -59,9 +59,11 @@ python3 -m http.server 8000
 修改內容後，同步產生文字版並測試：
 
 ```sh
-node scripts/build-reading.js
+node scripts/build-site.js
 node --test tests/reader.test.js
 node --check story.js
 ```
+
+`build-site.js` 同時按檔案雜湊更新樣式與腳本的版本識別，避免部署後混用瀏覽器快取中的舊檔。
 
 推送 `main` 後，GitHub Actions 驗證並部署 GitHub Pages。圖片載入失敗時回退至原插畫，正文仍然可讀。`localStorage` 被停用時，閱讀照常，筆記會提示無法永久儲存。
