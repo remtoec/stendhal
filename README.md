@@ -5,7 +5,7 @@
 ## 閱讀體驗
 
 - 七個階段、故事結局、讀後討論，共九頁。
-- 七幅兒童立體書風格插畫，配上繁體中文故事。
+- 九幅兒童立體書風格插畫：七個階段、結局，以及司湯達與 Irving Singer 的想像對話。
 - 上一頁／下一頁、目錄跳轉、鍵盤左右鍵，以及插畫上的手機滑動翻頁。
 - 可展開的閱讀線索、Singer 的三項辯護，以及四個延伸問題。
 - 支援手機、桌面、減少動態效果設定、鍵盤操作與螢幕閱讀器標籤。
@@ -19,7 +19,8 @@
 | `index.html` | 網站結構與中繼資料 |
 | `style.css` | 版面、紙書風格、響應式設計 |
 | `story.js` | 九頁故事內容、翻頁和互動討論 |
-| `assets/stage-1.webp` 至 `stage-7.webp` | 七幅網站插畫 |
+| `assets/stage-1.webp` 至 `stage-7.webp` | 七個階段的插畫 |
+| `assets/ending.webp`、`assets/reflection.webp` | 結局及讀後討論插畫 |
 | `favicon.svg` | 網站圖示 |
 | `.nojekyll` | 停用 GitHub Pages 的 Jekyll 處理 |
 | `.github/workflows/pages.yml` | GitHub Pages 自動發佈流程 |
@@ -42,4 +43,9 @@ GitHub Pages 預設網址：`https://remtoec.github.io/stendhal/`。此網址須
 
 故事依使用者提供的中文重述編排，並非小說原文的逐句翻譯。七幕對照是閱讀線索，並非 Singer 對各場景的正式分類。討論依據《The Nature of Love》第二卷第十一章；網站清楚區分 Singer 的論點、導讀解釋和延伸提問。
 
-七幅插畫為本故事書生成，已轉為 WebP 供網頁使用。Google Fonts 屬可選的外部字型；無法載入時會使用系統字型。網站沒有後端、追蹤程式或資料收集。
+九幅插畫為本故事書生成，已轉為 WebP 供網頁使用。Google Fonts 屬可選的外部字型；無法載入時會使用系統字型。網站沒有後端、追蹤程式或資料收集。
+
+人物對談圖是一場跨時代的想像對話，並非真實會面。肖像參考：
+
+- 司湯達：[Paris Musées 館藏肖像](https://parismuseescollections.paris.fr/fr/musee-de-la-vie-romantique/oeuvres/portrait-de-stendhal-en-1840)。
+- Irving Singer：[MIT 刊載的家屬提供照片](https://news.mit.edu/2015/irving-singer-obituary-0208)。
