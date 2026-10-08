@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3eddf">
+  <title>愛，如何誕生｜Ernestine 的七個階段</title>
+  <meta name="description" content="一本可以翻頁的立體故事書。跟隨 Ernestine 與 Philippe，在希望、誤會與想像之間走過司湯達的七個階段，再讀 Singer 的辯護與追問。">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="story.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#reading">跳到故事文字</a>
+  <header class="masthead">
+    <a class="brand" href="#stage-1" aria-label="回到故事第一頁"><span class="brand-mark" aria-hidden="true">❧</span><span>愛，如何誕生<small>Ernestine 的七個階段</small></span></a>
+    <nav class="top-nav" aria-label="全書導覽"><button type="button" data-goto="0">故事</button><button type="button" data-goto="7">結局</button><button type="button" data-goto="8">讀後，想一想</button></nav>
+  </header>
+  <main id="book" class="book-shell">
+    <div class="book-tools"><span id="section-label">七個階段</span><button id="contents-button" type="button" aria-expanded="false" aria-controls="contents">目錄 <span aria-hidden="true">＋</span></button></div>
+    <nav id="contents" class="contents" aria-label="故事目錄" hidden></nav>
+    <div class="stage-track" id="stage-track" aria-label="七個階段"></div>
+    <div class="spread" id="spread">
+      <section class="picture-page" aria-label="立體書插畫"><div class="image-wrap" id="image-wrap"><img id="scene-image" src="assets/stage-1.webp" alt="Ernestine 從城堡露台看見湖對岸的獵人，立體紙書中的第一次相遇" fetchpriority="high" width="1200" height="1200"></div><div class="picture-caption"><span id="picture-number">第一幕</span><p id="picture-caption">湖的另一邊，有一個她還不認識的人。</p></div><p class="gesture-hint">可在插畫上左右滑動翻頁</p></section>
+      <article class="text-page" id="reading" tabindex="-1"><div class="page-meta"><span id="page-kicker">第一階段</span><span id="page-count">01 / 09</span></div><h1 id="page-title" aria-live="polite">欣賞</h1><p class="page-deck" id="page-deck"></p><div id="page-body"></div></article>
+    </div>
+    <footer class="book-footer"><button type="button" id="previous" class="page-button" disabled>上一頁</button><div class="footer-center"><span id="footer-location">欣賞</span><div class="progress" role="progressbar" aria-label="翻閱進度" aria-valuemin="1" aria-valuemax="9" aria-valuenow="1"><span id="progress-fill"></span></div></div><button type="button" id="next" class="page-button next">下一頁</button></footer>
+  </main>
+  <footer class="colophon"><p>司湯達〈Ernestine，或愛的誕生〉 · Irving Singer《The Nature of Love》第二卷，第十一章</p><details><summary>關於這本故事書</summary><p>故事依照你提供的中文重述編排，並非小說原文的逐句翻譯。七幕是對照七個階段的閱讀線索，並非 Singer 對每個場景所作的正式配對；故事中的希望與懷疑會反覆出現。插畫中的晶體是「結晶」的視覺比喻。</p><p>讀後討論以所附第十一章的結尾段落為依據。「Singer 的辯護」整理其原文論證；「留給我們的問題」屬延伸討論，並非直接引文。</p></details></footer>
+  <noscript><p class="no-script">這本互動故事書需要啟用 JavaScript 才能翻頁。</p></noscript>
+</body>
+</html>
