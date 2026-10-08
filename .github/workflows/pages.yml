@@ -23,14 +23,19 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-      - name: Check JavaScript syntax
-        run: node --check story.js
+      - name: Check scripts and reader invariants
+        run: |
+          node --check content.js
+          node --check scenes.js
+          node --check reader-model.js
+          node --check story.js
+          node --test tests/reader.test.js
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Prepare static website
         run: |
           mkdir -p _site
-          cp index.html style.css story.js favicon.svg .nojekyll _site/
+          cp index.html read.html preview.html style.css content.js scenes.js reader-model.js story.js favicon.svg .nojekyll _site/
           cp -R assets _site/assets
       - name: Upload website
         uses: actions/upload-pages-artifact@v3

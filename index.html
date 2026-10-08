@@ -1,31 +1,84 @@
 <!doctype html>
-<html lang="zh-Hant-HK">
+<html lang="zh-Hant">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f3eddf">
-  <title>愛，如何誕生｜Ernestine 的七個階段</title>
-  <meta name="description" content="一本可以翻頁的立體故事書。跟隨 Ernestine 與 Philippe，在希望、誤會與想像之間走過司湯達的七個階段，再讀 Singer 的辯護與追問。">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9dfcb">
+  <meta name="description" content="翻開一本紙藝立體書，讀司湯達〈埃內斯蒂娜〉，再跟哲學家 Irving Singer 思考愛、想像與共同生活。繁體中文故事節述與哲學導讀。">
+  <meta property="og:title" content="愛，如何誕生｜一本關於想像的立體書">
+  <meta property="og:description" content="一朵花，怎樣變成一個人的整個世界？讀司湯達的故事，聽辛格的辯護與追問。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://remtoec.github.io/stendhal/">
+  <meta property="og:image" content="https://remtoec.github.io/stendhal/assets/stage-1.webp">
+  <title>愛，如何誕生｜司湯達與辛格的紙上相遇</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="assets/paper/scenery.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/paper/characters.webp" as="image" type="image/webp">
+  <script src="content.js" defer></script>
+  <script src="scenes.js" defer></script>
+  <script src="reader-model.js" defer></script>
   <script src="story.js" defer></script>
 </head>
 <body>
-  <a class="skip" href="#reading">跳到故事文字</a>
+  <a class="skip-link" href="#page-title">跳到本頁故事</a>
   <header class="masthead">
-    <a class="brand" href="#stage-1" aria-label="回到故事第一頁"><span class="brand-mark" aria-hidden="true">❧</span><span>愛，如何誕生<small>Ernestine 的七個階段</small></span></a>
-    <nav class="top-nav" aria-label="全書導覽"><button type="button" data-goto="0">故事</button><button type="button" data-goto="7">結局</button><button type="button" data-goto="8">讀後，想一想</button></nav>
+    <a class="wordmark" href="#cover" aria-label="回到封面"><span class="brand-flower" aria-hidden="true">✳</span> 愛，如何誕生 <span class="brand-sub">一本關於想像的書</span></a>
+    <nav aria-label="閱讀工具">
+      <button type="button" data-dialog="contents-dialog"><span aria-hidden="true">☷</span> 目錄</button>
+      <button type="button" data-dialog="settings-dialog">閱讀設定</button>
+      <button type="button" class="source-link" data-dialog="sources-dialog">關於</button>
+    </nav>
   </header>
-  <main id="book" class="book-shell">
-    <div class="book-tools"><span id="section-label">七個階段</span><button id="contents-button" type="button" aria-expanded="false" aria-controls="contents">目錄 <span aria-hidden="true">＋</span></button></div>
-    <nav id="contents" class="contents" aria-label="故事目錄" hidden></nav>
-    <div class="stage-track" id="stage-track" aria-label="七個階段"></div>
-    <div class="spread" id="spread">
-      <section class="picture-page" aria-label="立體書插畫"><div class="image-wrap" id="image-wrap"><img id="scene-image" src="assets/stage-1.webp" alt="Ernestine 從城堡露台看見湖對岸的獵人，立體紙書中的第一次相遇" fetchpriority="high" width="1200" height="1200"></div><div class="picture-caption"><span id="picture-number">第一幕</span><p id="picture-caption">湖的另一邊，有一個她還不認識的人。</p></div><p class="gesture-hint">可在插畫上左右滑動翻頁</p></section>
-      <article class="text-page" id="reading" tabindex="-1"><div class="page-meta"><span id="page-kicker">第一階段</span><span id="page-count">01 / 09</span></div><h1 id="page-title" aria-live="polite">欣賞</h1><p class="page-deck" id="page-deck"></p><div id="page-body"></div></article>
-    </div>
-    <footer class="book-footer"><button type="button" id="previous" class="page-button" disabled>上一頁</button><div class="footer-center"><span id="footer-location">欣賞</span><div class="progress" role="progressbar" aria-label="翻閱進度" aria-valuemin="1" aria-valuemax="9" aria-valuenow="1"><span id="progress-fill"></span></div></div><button type="button" id="next" class="page-button next">下一頁</button></footer>
+  <main id="reader">
+    <div class="book-context"><span id="section-label">司湯達的故事 · 辛格的閱讀</span><span id="page-counter">封面</span></div>
+    <div id="resume-banner" class="resume-banner" hidden></div>
+    <article class="book" id="book" aria-labelledby="page-title">
+      <div class="spread" id="spread">
+        <header class="page-heading" id="page-heading"><p class="eyebrow">司湯達 · 辛格</p><h1 id="page-title" tabindex="-1">愛，如何誕生</h1><p class="subtitle">一朵花，怎樣變成一個人的整個世界？</p></header>
+        <figure class="illustration" id="illustration">
+          <div class="scene" id="scene" role="img" aria-label="紙藝風景：湖泊、古堡與橡樹。"></div>
+          <figcaption id="scene-caption">一本關於想像的立體書。</figcaption>
+          <button type="button" id="original-art" class="quiet-button">看原版插畫 ↗</button>
+        </figure>
+        <div class="text-section" id="text-section"><p>沿着花束、字條與一次次猜測，讀司湯達筆下的埃內斯蒂娜。</p><p>正在翻開書頁。如果未能開啟，請閱讀<a href="read.html">完整文字版</a>。</p><noscript><p>你的瀏覽器沒有啟用 JavaScript。故事和哲學導讀都收錄在<a href="read.html">完整文字版</a>。</p></noscript></div>
+      </div>
+      <div class="turn-leaf" id="turn-leaf" aria-hidden="true" inert hidden><div class="leaf-face leaf-front" id="leaf-front"></div><div class="leaf-face leaf-back"><span class="leaf-flower">✳</span><span>愛，如何誕生</span></div></div>
+      <div class="page-edge" aria-hidden="true"></div>
+      <button type="button" id="prev-corner" class="paper-corner left-corner" aria-label="拉起左下紙角，翻到上一頁" disabled><span aria-hidden="true">↶</span></button>
+      <button type="button" id="next-corner" class="paper-corner right-corner" aria-label="拉起右下紙角，翻到下一頁"><span aria-hidden="true">↷</span></button>
+    </article>
+    <nav class="page-navigation" aria-label="翻頁">
+      <button type="button" id="prev-page" class="page-button previous" disabled><span aria-hidden="true">←</span><span>上一頁</span></button>
+      <div class="reading-progress"><span id="progress-label">翻開故事</span><progress id="progress" max="24" value="0" aria-label="閱讀進度"></progress><span class="gesture-hint">拖動紙角，或按左右方向鍵</span></div>
+      <button type="button" id="next-page" class="page-button next"><span id="next-label">翻開書頁</span><span aria-hidden="true">→</span></button>
+    </nav>
+    <p class="reader-footnote">故事節述與哲學導讀 <span aria-hidden="true">·</span> <a href="read.html">完整文字版</a> <span aria-hidden="true">·</span> <button type="button" data-dialog="sources-dialog">來源與改編說明</button></p>
+    <p id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
   </main>
-  <footer class="colophon"><p>司湯達〈Ernestine，或愛的誕生〉 · Irving Singer《The Nature of Love》第二卷，第十一章</p><details><summary>關於這本故事書</summary><p>故事依照你提供的中文重述編排，並非小說原文的逐句翻譯。七幕是對照七個階段的閱讀線索，並非 Singer 對每個場景所作的正式配對；故事中的希望與懷疑會反覆出現。插畫中的晶體是「結晶」的視覺比喻。</p><p>「故事以外」的人物對談是跨時代的想像場景，並非真實會面。司湯達的面貌參照 <a href="https://parismuseescollections.paris.fr/fr/musee-de-la-vie-romantique/oeuvres/portrait-de-stendhal-en-1840" target="_blank" rel="noopener noreferrer">Paris Musées 館藏肖像</a>；Irving Singer 參照 <a href="https://news.mit.edu/2015/irving-singer-obituary-0208" target="_blank" rel="noopener noreferrer">MIT 刊載的家屬提供照片</a>。</p><p>讀後討論以所附第十一章的結尾段落為依據。「Singer 的辯護」整理其原文論證；「留給我們的問題」屬延伸討論，並非直接引文。</p></details></footer>
-  <noscript><p class="no-script">這本互動故事書需要啟用 JavaScript 才能翻頁。</p></noscript>
+  <dialog id="contents-dialog" aria-labelledby="contents-title">
+    <div class="dialog-heading"><div><p class="eyebrow">書籤</p><h2 id="contents-title">在書頁之間</h2></div><button class="close-dialog" aria-label="關閉目錄">×</button></div>
+    <div class="contents-tabs" role="group" aria-label="目錄類型"><button type="button" id="event-tab" aria-pressed="true">跟着故事</button><button type="button" id="stage-tab" aria-pressed="false">七階段書籤</button></div>
+    <div id="event-contents"></div><div id="stage-contents" hidden></div>
+  </dialog>
+  <dialog id="settings-dialog" aria-labelledby="settings-title">
+    <div class="dialog-heading"><div><p class="eyebrow">閱讀設定</p><h2 id="settings-title">慢慢讀，照你的方式</h2></div><button class="close-dialog" aria-label="關閉閱讀設定">×</button></div>
+    <label class="setting-row" for="motion-setting"><span><strong>翻頁動態</strong><small>減少動態時，所有文字和紙瓣仍可閱讀。</small></span><select id="motion-setting"><option value="system">跟隨系統</option><option value="reduce">減少動態</option><option value="full">完整動態</option></select></label>
+    <label class="setting-row" for="type-setting"><span><strong>文字大小</strong><small>也可使用瀏覽器的縮放功能。</small></span><select id="type-setting"><option value="regular">標準</option><option value="large">較大</option></select></label>
+    <div class="privacy-note"><p>閱讀位置、設定與筆記只儲存在這個瀏覽器，不會傳送給網站作者。</p><button type="button" id="clear-notes">清除我的筆記</button><span id="settings-status" role="status"></span></div>
+  </dialog>
+  <dialog id="sources-dialog" aria-labelledby="sources-title">
+    <div class="dialog-heading"><div><p class="eyebrow">來源與改編說明</p><h2 id="sources-title">這本書從哪裡來？</h2></div><button class="close-dialog" aria-label="關閉來源說明">×</button></div>
+    <p>這是中文故事節述與哲學導讀，並非逐句全譯。人物的心聲、敘述者的解釋、辛格的論證，以及本書提出的問題，均另作標示。</p>
+    <ol class="source-list">
+      <li><strong>司湯達〈埃內斯蒂娜，或愛的誕生〉</strong><p>《論愛情》第二卷附錄。以法文文本核對情節、時序與結尾。</p><a href="https://fr.wikisource.org/wiki/Stendhal_-_De_l%E2%80%99amour,_II,_1927,_%C3%A9d._Martineau/Ernestine" target="_blank" rel="noopener noreferrer">閱讀法文故事 ↗</a></li>
+      <li><strong>司湯達《論愛情》第二章</strong><p>〈愛的誕生〉的七階段。故事按事件分頁，階段只作閱讀索引，並非科學量表或人人必經的流程。</p><a href="https://fr.wikisource.org/wiki/De_l%E2%80%99Amour/II._De_la_naissance_de_l%E2%80%99amour" target="_blank" rel="noopener noreferrer">閱讀七階段原文 ↗</a></li>
+      <li><strong>Irving Singer《The Nature of Love》</strong><p>第二卷 <em>Courtly and Romantic</em>，第十一章。依據本專案提供的章節文本；以段首定位，避免不同版本的頁碼落差。網站只提供中文節述，不重刊整章。</p></li>
+    </ol>
+    <p>「埃內斯蒂娜」「菲利普」「德桑夫人」是本版採用的中文音譯。結尾會指出辛格的概括與法文所明寫的內容有何不同。</p>
+    <p>插畫及分層紙藝素材以 AI 輔助製作。司湯達與辛格的對談是跨時代的想像場景，並非歷史事件；紙晶表示人物的推想，不是客觀的品格認證。</p>
+    <a class="text-link" href="https://github.com/remtoec/stendhal" target="_blank" rel="noopener noreferrer">查看網站原始碼 ↗</a>
+  </dialog>
+  <dialog id="art-dialog" class="art-dialog" aria-labelledby="art-title"><div class="dialog-heading"><h2 id="art-title">原版紙藝插畫</h2><button class="close-dialog" aria-label="關閉插畫">×</button></div><img id="art-image" alt="" width="1200" height="1200"><p id="art-status" role="status"></p></dialog>
 </body>
 </html>
