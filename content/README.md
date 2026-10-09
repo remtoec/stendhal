@@ -60,7 +60,7 @@
 
 ### 可用的場景
 
-`cover` `rain` `castle` `lake` `attic` `window` `hollow` `rose` `church` `empty` `crystals` `letter` `waiting` `hall` `withheld` `watching` `proposal` `doorway` `parting` `ending` `twig` `twig-full` `discussion` `discussion-crystal` `discussion-flower` `discussion-home`
+`cover` `rain` `castle` `lake` `attic` `window` `hollow` `rose` `church` `empty` `crystals` `letter` `waiting` `hall` `withheld` `watching` `proposal` `doorway` `parting` `ending` `twig` `twig-full` `discussion` `discussion-crystal` `discussion-flower` `discussion-home` `thrown` `black-roses` `fire` `piano` `banquet` `rival`
 
 場景由 `scenes.js` 裡的紙片位置組成；要新增場景，在那裡加一行即可。
 

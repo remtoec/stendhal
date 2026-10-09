@@ -35,7 +35,7 @@ function build(){
   const problems=F.problems(book,Object.keys(SCENES.scenes));
   if(problems.length){console.error('content/book.md：\n- '+problems.join('\n- '));process.exit(1);}
   fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out);
-  for(const item of COPY)fs.cpSync(path.join(root,item),path.join(out,item),{recursive:true});
+  for(const item of COPY)fs.cpSync(path.join(root,item),path.join(out,item),{recursive:true,filter:source=>path.extname(source).toLowerCase()!=='.png'});
   // Pin the stylesheet and scripts to their content hash, so a deploy never mixes old and new files.
   const version=file=>createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex').slice(0,12);
   const pin=html=>html.replace(/(href|src)="(style\.css|[\w-]+\.js)"/g,(_,attribute,file)=>`${attribute}="${file}?v=${version(file)}"`);
