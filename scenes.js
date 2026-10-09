@@ -28,6 +28,7 @@ const PAPER_SCENES = (() => {
     rain:{floor:true,rain:true,items:[['mountain',44,34,46,2],['window',16,12,66,4],['prayer',60,0,27,7]]},
     castle:{lake:true,items:[['mountain',2,30,74,3],['castle',16,15,58,5],['oak',62,6,36,6]]},
     lake:{lake:true,items:[...landscape,...couple]},
+    attic:{floor:true,items:[['mountain',47,33,42,2],['window',5,12,64,4],['ernestine',26,1,43,7]]},
     window:{floor:true,items:[['mountain',47,33,42,2],['window',5,12,64,4],['ernestine',26,1,43,7],['letter',63,3,27,8]]},
     hollow:{lake:true,items:[['castle',4,23,41,3],['oak',46,15,46,4],['ernestine',22,3,46,6],['bouquet',7,0,31,8],['letter',60,0,33,8]]},
     rose:{floor:true,items:[['window',5,24,47,3],['ernestine',57,12,32,4],['rose',13,1,66,7],['cloth',13,1,66,9,{unless:'rose'}]]},

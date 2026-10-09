@@ -53,11 +53,13 @@
 | `::: crystals 名稱｜按鈕文字`，內容是 `- 小標｜文字` 的清單 | 一步一步出現的推想。第一項一開始就顯示 |
 | `::: voices`，內容是 `- 誰｜文字` 的清單 | 並排的兩種看法 |
 
+`reveal` 裡的內容讀者可能不會打開，所以推動情節的句子要寫在方塊外面。場景的說明（`caption`）要對得上畫面，也不要搶先說出正文還沒寫到的事。
+
 `reveal` 和 `crystals` 的「名稱」可以讓同一節的紙藝場景跟着變化（例如揭開手帕、換上將軍）。對應關係寫在 `scenes.js`；用一個場景沒有用到的名稱也可以，場景只是不會變。有這兩種方塊的一節，場景會排在方塊正上方。
 
 ### 可用的場景
 
-`cover` `rain` `castle` `lake` `window` `hollow` `rose` `church` `empty` `crystals` `letter` `waiting` `hall` `withheld` `watching` `proposal` `doorway` `parting` `ending` `twig` `twig-full` `discussion` `discussion-crystal` `discussion-flower` `discussion-home`
+`cover` `rain` `castle` `lake` `attic` `window` `hollow` `rose` `church` `empty` `crystals` `letter` `waiting` `hall` `withheld` `watching` `proposal` `doorway` `parting` `ending` `twig` `twig-full` `discussion` `discussion-crystal` `discussion-flower` `discussion-home`
 
 場景由 `scenes.js` 裡的紙片位置組成；要新增場景，在那裡加一行即可。
 
