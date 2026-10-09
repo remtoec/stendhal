@@ -3,7 +3,7 @@
 // scripts/build.js (Node), so the text lives in one Markdown file and nowhere else.
 // The format is described in content/README.md.
 const BOOK_FORMAT = (() => {
-  const CONTAINERS=['note','reveal','crystals','voices','journal'];
+  const CONTAINERS=['note','reveal','crystals','voices'];
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const inline=s=>esc(s)
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
@@ -77,14 +77,13 @@ const BOOK_FORMAT = (() => {
     for(const b of everyBlock(book)){
       if(b.args&&!CONTAINERS.includes(b.type))out.push(`不認得的方塊「::: ${b.type}」。可用的方塊：${CONTAINERS.join('、')}。`);
       if((b.type==='reveal'||b.type==='crystals')&&!b.args[0])out.push(`「::: ${b.type}」後面要有一個名稱。`);
-      if(b.type==='journal'&&!['before','after'].includes(b.args[0]))out.push('「::: journal」後面要寫 before 或 after。');
     }
     const stages=book.chapters.map(c=>c.stage).filter(Boolean);
     if(new Set(stages).size!==stages.length)out.push('有兩個章節用了同一個 stage 編號。');
     return out;
   }
 
-  // options.static: the no-JavaScript edition (everything unfolded, no scenes or inputs).
+  // options.static: the no-JavaScript edition (everything unfolded, no scenes or buttons).
   // options.scene(name): returns the inner HTML of a paper scene.
   function blocksHTML(blocks,options={}){
     const items=b=>(b.blocks.find(x=>x.type==='list')||{items:[]}).items;
@@ -98,7 +97,6 @@ const BOOK_FORMAT = (() => {
         case 'reveal':return `<details class="reveal" data-reveal="${esc(b.args[0])}"${options.static?' open':''}><summary><span class="when-closed">${inline(b.args[1]||'')}</span><span class="when-open">${inline(b.args[2]||b.args[1]||'')}</span></summary><div class="reveal-body">${blocksHTML(b.blocks,options)}</div></details>`;
         case 'crystals':return `<div class="crystals" data-crystals="${esc(b.args[0])}"><ol>${items(b).map(i=>`<li><strong>${inline(i.label||'')}</strong><span>${inline(i.text)}</span></li>`).join('')}</ol>${options.static?'':`<button type="button" class="paper-button" data-more>${inline(b.args[1]||'')}</button>`}</div>`;
         case 'voices':return `<div class="voices">${items(b).map(i=>`<div class="voice"><h3>${inline(i.label||'')}</h3><p>${inline(i.text)}</p></div>`).join('')}</div>`;
-        case 'journal':return `<div class="journal" data-journal="${esc(b.args[0])}"><ol class="questions">${items(b).map(i=>`<li>${inline(i.text)}</li>`).join('')}</ol>${options.static?'':`<label for="journal-${esc(b.args[0])}">${inline(b.args[1]||'')}</label><textarea id="journal-${esc(b.args[0])}" maxlength="5000" rows="5"></textarea><p class="save-status" data-save-status></p>`}</div>`;
         default:return '';
       }
     }).join('');

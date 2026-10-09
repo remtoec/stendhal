@@ -12,12 +12,17 @@ const PAPER_SCENES = (() => {
     ernestine:['characters',0], philippe:['characters',1], kneeling:['characters',2],
     general:['characters',3], stendhal:['characters',4], singer:['characters',5],
     rose:['objects',0], bouquet:['objects',1], letter:['objects',2],
-    prayer:['objects',3], crystal:['objects',4], jewels:['objects',5]
+    prayer:['objects',3], crystal:['objects',4], jewels:['objects',5],
+    glass:['objects',4] // the same crystals, drawn see-through
   };
   const landscape=[['mountain',4,28,69,3],['castle',3,21,39,4],['oak',54,10,44,5]];
   const couple=[['ernestine',13,1,38,7],['philippe',54,7,34,6]];
   const room=[['window',9,19,53,3],['bed',43,6,51,4]];
   const thinkers=[['stendhal',6,3,46,6],['singer',50,3,45,7]];
+  // Stendhal's image: a bare twig (drawn in CSS) left in the salt mine, and the crystals that grow over it.
+  // Each crystal is [x%, y%, width%, z, the step at which it appears].
+  const twig=['twig',19,4,62,5];
+  const crust=[[22.9,33,22,7,1],[63.3,34,18,7,1],[55.4,42,24,7,2],[29.7,58,22,7,2],[19.3,27.6,18,6,2],[46.4,61,22,8,3],[34.7,16,30,8,3],[32,30,34,9,3]];
   const scenes={
     cover:{lake:true,items:[...landscape,...couple,['bouquet',40,5,17,8]]},
     rain:{floor:true,rain:true,items:[['mountain',44,34,46,2],['window',16,12,66,4],['prayer',60,0,27,7]]},
@@ -38,6 +43,8 @@ const PAPER_SCENES = (() => {
     doorway:{floor:true,items:[...room,['ernestine',6,0,49,7],['philippe',55,5,39,3]]},
     parting:{lake:true,items:[['mountain',8,29,72,3],['castle',2,22,33,4],['ernestine',1,1,36,6],['philippe',64,0,36,7]]},
     ending:{lake:true,items:[['castle',34,31,34,3],['ernestine',12,1,44,6],['philippe',59,1,42,7,{unless:'ending'}],['general',51,1,44,7,{when:'ending'}]]},
+    twig:{items:[twig,...crust.map(([x,y,w,z,step])=>['crystal',x,y,w,z,{step}])]},
+    'twig-full':{items:[twig,...crust.map(([x,y,w,z])=>['crystal',x,y,w,z,{unless:'through'}]),...crust.map(([x,y,w,z])=>['glass',x,y,w,z,{when:'through'}])]},
     discussion:{floor:true,items:[...thinkers,['rose',37,2,25,8]]},
     'discussion-crystal':{floor:true,items:[...thinkers,['crystal',34,21,34,8]]},
     'discussion-flower':{floor:true,items:[...thinkers,['bouquet',37,2,27,8]]},

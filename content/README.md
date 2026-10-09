@@ -4,7 +4,7 @@
 
 | 檔案 | 內容 |
 | --- | --- |
-| `book.md` | 全書文字：封面、故事、辛格旁注、「故事以外」、「關於這本書」 |
+| `book.md` | 全書文字：封面、故事、旁注、「故事以外」、「關於這本書」 |
 | `ui.json` | 介面上的短句：「下一章」「接着讀」之類 |
 
 改完推送到 `main`，GitHub Actions 會檢查格式、產生完整文字版（`read.html`）並部署。在本機預覽時，格式若有錯，頁面最上方會直接列出問題。
@@ -52,20 +52,20 @@
 | `::: reveal 名稱｜展開前的按鈕｜展開後的按鈕` | 讀者自己揭開的段落 |
 | `::: crystals 名稱｜按鈕文字`，內容是 `- 小標｜文字` 的清單 | 一步一步出現的推想。第一項一開始就顯示 |
 | `::: voices`，內容是 `- 誰｜文字` 的清單 | 並排的兩種看法 |
-| `::: journal before｜欄位標題`（或 `after`），內容是 `- 問題` 的清單 | 討論題和讀者的筆記欄。`after` 會附上讀者在 `before` 寫過的話 |
 
 `reveal` 和 `crystals` 的「名稱」可以讓同一節的紙藝場景跟着變化（例如揭開手帕、換上將軍）。對應關係寫在 `scenes.js`；用一個場景沒有用到的名稱也可以，場景只是不會變。有這兩種方塊的一節，場景會排在方塊正上方。
 
 ### 可用的場景
 
-`cover` `rain` `castle` `lake` `window` `hollow` `rose` `church` `empty` `crystals` `letter` `waiting` `hall` `withheld` `watching` `proposal` `doorway` `parting` `ending` `discussion` `discussion-crystal` `discussion-flower` `discussion-home`
+`cover` `rain` `castle` `lake` `window` `hollow` `rose` `church` `empty` `crystals` `letter` `waiting` `hall` `withheld` `watching` `proposal` `doorway` `parting` `ending` `twig` `twig-full` `discussion` `discussion-crystal` `discussion-flower` `discussion-home`
 
 場景由 `scenes.js` 裡的紙片位置組成；要新增場景，在那裡加一行即可。
 
-## 三種聲音
+## 寫給誰看
 
-改寫時請保持分開：
+讀者是讀書會的朋友：受過大學教育，但不是哲學系學生。改寫時請記住——
 
-1. **司湯達的故事**：人物、事件、敘事者的插話。對白依據中文全譯本，可輕度縮寫，不另造情節。
-2. **辛格的解讀**：寫在 `note` 方塊和「故事以外」，是節述，不要寫成故事人物說過的話。
-3. **本書的對照**：以「放回故事：」開頭的句子，把辛格的論點對回情節。
+- **重點是內容，不是人名。** 全書只出現兩個名字：司湯達，以及 Irving Singer（保留英文，方便有興趣的人搜尋）。其他思想家的看法，直接講內容，不必點名。
+- **用平常的話。** 少用術語；每張旁注講一個想法，最後留一個可以聊下去的問題。
+- **讀完就完整。** 不安排要動筆的練習，也不把讀者引到別處。
+- **分清誰在說話。** 故事是司湯達的，對白依據中文全譯本，可輕度縮寫，不另造情節；女主角 Ernestine 簡稱蒂娜（Tina）。Singer 的看法寫明「Singer」，不要寫成故事人物說過的話。

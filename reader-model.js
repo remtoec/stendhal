@@ -8,12 +8,11 @@ const READER_MODEL = (() => {
     return places.find(p=>p.id===id)||places[0];
   }
   function normalize(raw,places){
-    const out={version:3,at:places[0].id,motion:'system',type:'regular',before:'',after:''};
+    const out={version:3,at:places[0].id,motion:'system',type:'regular'};
     if(!raw||typeof raw!=='object'||raw.version!==3)return out;
     if(places.some(p=>p.id===raw.at))out.at=raw.at;
     if(['system','reduce','full'].includes(raw.motion))out.motion=raw.motion;
     if(['regular','large'].includes(raw.type))out.type=raw.type;
-    for(const slot of ['before','after'])if(typeof raw[slot]==='string')out[slot]=raw[slot].slice(0,5000);
     return out;
   }
   return {locate,normalize};

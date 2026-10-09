@@ -63,9 +63,9 @@ test('text is escaped; only bold and links are turned into HTML; the scene sits 
   assert.ok(html.indexOf('class="slip"')<html.indexOf('class="scene"')&&html.indexOf('class="scene"')<html.indexOf('data-reveal="rose"'));
 });
 test('mistakes in the text file are reported in plain words',()=>{
-  const bad=F.parse('# 甲\n<!-- id: a | stage: 1 -->\n## 乙\n<!-- id: a | scene: nowhere -->\n::: box x\n:::\n::: journal later\n:::\n## 丙\n# 丁\n<!-- id: Bad Id | stage: 1 -->\n');
+  const bad=F.parse('# 甲\n<!-- id: a | stage: 1 -->\n## 乙\n<!-- id: a | scene: nowhere -->\n::: box x\n:::\n::: reveal\n:::\n## 丙\n# 丁\n<!-- id: Bad Id | stage: 1 -->\n');
   const problems=F.problems(bad,sceneNames).join('\n');
-  for(const expected of ['id「a」重複','場景「nowhere」不存在','「::: box」','before 或 after','「丙」缺少 id','「Bad Id」','同一個 stage'])assert.ok(problems.includes(expected),expected);
+  for(const expected of ['id「a」重複','場景「nowhere」不存在','「::: box」','「::: reveal」後面要有一個名稱','「丙」缺少 id','「Bad Id」','同一個 stage'])assert.ok(problems.includes(expected),expected);
   assert.ok(F.problems(F.parse(''),sceneNames).length);
 });
 // These checks follow whatever the text file says; they do not pin its wording or its shape.
@@ -74,7 +74,7 @@ test('content/book.md is ready to publish: no problems, every picture on disk',(
   for(const b of F.everyBlock(book))if(b.type==='image')assert.ok(fs.existsSync(path.join(root,b.src)),b.src);
 });
 test('every scene uses known cutouts and atlases stay small',()=>{
-  for(const [name,scene] of Object.entries(SCENES.scenes))for(const [key] of scene.items)assert.ok(SCENES.sprites[key]||key==='cloth',`${name}: ${key}`);
+  for(const [name,scene] of Object.entries(SCENES.scenes))for(const [key] of scene.items)assert.ok(SCENES.sprites[key]||['cloth','twig'].includes(key),`${name}: ${key}`);
   for(const asset of SCENES.atlasPaths)assert.ok(fs.statSync(path.join(root,asset)).size<350000);
   for(const name of sceneNames)assert.ok(SCENES.render(name).includes('class="sprite'));
 });
@@ -83,13 +83,12 @@ test('links to any chapter or section resolve; unknown and malformed links open 
   for(const place of places)assert.equal(M.locate('#'+place.id,places),place);
   for(const hash of ['','#','#unknown','#%E0%A4%A'])assert.equal(M.locate(hash,places),places[0]);
 });
-test('stored preferences and notes survive; corrupted data is bounded and harmless',()=>{
+test('stored position and preferences survive; corrupted data is harmless',()=>{
   const places=F.places(book);
   const first=places[0].id,last=places.at(-1).id;
   assert.equal(M.normalize(null,places).at,first);assert.equal(M.normalize({version:2,at:last},places).at,first);
-  const data=M.normalize({version:3,at:last,motion:'reduce',type:'large',before:'<script>plain text</script>',after:'x'.repeat(6000),extra:1},places);
-  assert.deepEqual([data.at,data.motion,data.type,data.before,data.after.length,data.extra],[last,'reduce','large','<script>plain text</script>',5000,undefined]);
-  assert.deepEqual(M.normalize({version:3,at:'gone',motion:'fast',type:7,before:5},places),M.normalize(null,places));
+  assert.deepEqual(M.normalize({version:3,at:last,motion:'reduce',type:'large',extra:'<script>'},places),{version:3,at:last,motion:'reduce',type:'large'});
+  assert.deepEqual(M.normalize({version:3,at:'gone',motion:'fast',type:7},places),M.normalize(null,places));
 });
 test('the no-script edition holds every sentence, unfolded, and runs no script',()=>{
   const html=readingEdition(book,ui);

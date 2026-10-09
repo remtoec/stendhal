@@ -17,17 +17,14 @@
   const issues=F.problems(book,Object.keys(S.scenes));
   const problemsHTML=issues.length?`<aside class="content-problems"><strong>${F.esc(ui.contentProblems)}</strong><ul>${issues.map(i=>`<li>${F.esc(i)}</li>`).join('')}</ul></aside>`:'';
 
-  let raw=null,storageOK=true;
-  try{raw=JSON.parse(localStorage.getItem(storageKey));}catch{storageOK=false;}
+  let raw=null;
+  try{raw=JSON.parse(localStorage.getItem(storageKey));}catch{}
   const saved=M.normalize(raw,places),resumeAt=saved.at;
   const systemMotion=matchMedia('(prefers-reduced-motion: reduce)');
   const reduceMotion=()=>saved.motion==='reduce'||(saved.motion==='system'&&systemMotion.matches);
   let current=-1,routing=0;
 
-  function save(){
-    try{localStorage.setItem(storageKey,JSON.stringify(saved));storageOK=true;}catch{storageOK=false;}
-    document.querySelectorAll('[data-save-status]').forEach(el=>{el.textContent=storageOK?ui.saved:ui.notSaved;});
-  }
+  const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch{}}; // reading works without storage
   function applySettings(){
     document.body.classList.toggle('reduced-motion',reduceMotion());
     document.body.classList.toggle('large-type',saved.type==='large');
@@ -68,11 +65,6 @@
     main.querySelectorAll('.scene').forEach(scene=>{applyScene(scene);sceneWatcher.observe(scene);});
     main.querySelectorAll('.beat').forEach(beat=>beatWatcher.observe(beat));
     main.querySelectorAll('.crystals').forEach(box=>box.querySelectorAll('li').forEach((li,i)=>{li.hidden=i>0;}));
-    main.querySelectorAll('.journal').forEach(box=>{
-      const slot=box.dataset.journal;box.querySelector('textarea').value=saved[slot];
-      if(slot==='after')box.insertAdjacentHTML('afterbegin',`<p class="journal-heading">${F.esc(ui.beforeHeading)}</p><p class="before-thought">${F.esc(saved.before||ui.beforeEmpty)}</p>`);
-      if(slot==='after')box.insertAdjacentHTML('beforeend',`<button type="button" class="paper-button" data-export>${F.esc(ui.export)}</button>`);
-    });
     // Bottom bar, title and contents follow the chapter.
     const reached=Math.max(0,...chapters.slice(0,index+1).map(c=>c.stage));
     $('crystal-row').innerHTML=Array.from({length:Math.max(...chapters.map(c=>c.stage))},(_,i)=>`<i class="${i<reached?'on':''}${i+1===chapter.stage?' now':''}"></i>`).join('');
@@ -118,30 +110,19 @@
     scene.dataset.on=[...on].join(' ');applyScene(scene);
   },true);
   main.addEventListener('click',event=>{
-    const more=event.target.closest('[data-more]');
-    if(more){
-      const box=more.closest('.crystals'),items=[...box.querySelectorAll('li')],next=items.find(li=>li.hidden);
-      if(next){next.hidden=false;$('announcement').textContent=next.textContent;}
-      more.hidden=!items.some(li=>li.hidden);
-      const scene=sceneFor(box);
-      if(scene){scene.dataset.step=items.filter(li=>!li.hidden).length-1;applyScene(scene);}
-    }
-    if(event.target.closest('[data-export]')){
-      const text=`${chapters[0].title}\n\n${ui.exportBefore}\n${saved.before||ui.exportEmpty}\n\n${ui.exportAfter}\n${saved.after||ui.exportEmpty}\n\n${location.origin+location.pathname}\n`;
-      const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));
-      const a=document.createElement('a');a.href=url;a.download='reading-notes.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
-    }
-  });
-  main.addEventListener('input',event=>{
-    const slot=event.target.closest('.journal')?.dataset.journal;
-    if(slot&&event.target.matches('textarea')){saved[slot]=event.target.value.slice(0,5000);save();}
+    const more=event.target.closest('[data-more]');if(!more)return;
+    const box=more.closest('.crystals'),items=[...box.querySelectorAll('li')],next=items.find(li=>li.hidden);
+    if(next){next.hidden=false;$('announcement').textContent=next.textContent;}
+    more.hidden=!items.some(li=>li.hidden);
+    const scene=sceneFor(box);
+    if(scene){scene.dataset.step=items.filter(li=>!li.hidden).length-1;applyScene(scene);}
   });
 
   // A quick sideways flick turns the chapter. Edge swipes are left to the browser's own back gesture.
   let touch=null;
   main.addEventListener('touchstart',event=>{
     const t=event.touches[0];
-    touch=event.touches.length===1&&t.clientX>24&&t.clientX<innerWidth-24&&!event.target.closest('textarea,select,input')?{x:t.clientX,y:t.clientY,time:event.timeStamp}:null;
+    touch=event.touches.length===1&&t.clientX>24&&t.clientX<innerWidth-24?{x:t.clientX,y:t.clientY,time:event.timeStamp}:null;
   },{passive:true});
   main.addEventListener('touchend',event=>{
     if(!touch)return;
@@ -150,7 +131,7 @@
     if(quick&&Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*2.5&&!String(getSelection()))turn(dx<0?1:-1);
   },{passive:true});
   document.addEventListener('keydown',event=>{
-    if(event.defaultPrevented||event.altKey||event.ctrlKey||event.metaKey||document.querySelector('dialog[open]')||event.target.closest('input,textarea,select,summary'))return;
+    if(event.defaultPrevented||event.altKey||event.ctrlKey||event.metaKey||document.querySelector('dialog[open]')||event.target.closest('select,summary'))return;
     if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();turn(event.key==='ArrowRight'?1:-1);}
   });
 
@@ -166,7 +147,6 @@
   $('motion-setting').addEventListener('change',event=>{saved.motion=event.target.value;applySettings();save();});
   $('type-setting').addEventListener('change',event=>{saved.type=event.target.value;applySettings();save();});
   systemMotion.addEventListener('change',applySettings);
-  $('clear-notes').addEventListener('click',()=>{saved.before='';saved.after='';save();render(current);$('settings-status').textContent=ui.cleared;});
 
   addEventListener('hashchange',()=>route(false));
   addEventListener('pagehide',save);
