@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const F=require('../book-format.js'),M=require('../reader-model.js'),SCENES=require('../scenes.js');
-const {readingEdition}=require('../scripts/build.js');
+const {build,readingEdition}=require('../scripts/build.js');
 const root=path.join(__dirname,'..');
 const book=F.parse(fs.readFileSync(path.join(root,'content/book.md'),'utf8'));
 const ui=JSON.parse(fs.readFileSync(path.join(root,'content/ui.json'),'utf8'));
@@ -76,12 +76,35 @@ test('mistakes in the text file are reported in plain words',()=>{
 // These checks follow whatever the text file says; they do not pin its wording or its shape.
 test('content/book.md is ready to publish: no problems, every picture on disk',()=>{
   assert.deepEqual(F.problems(book,sceneNames),[]);
-  for(const b of F.everyBlock(book))if(b.type==='image')assert.ok(fs.existsSync(path.join(root,b.src)),b.src);
+  for(const b of F.everyBlock(book))if(b.type==='image'){
+    assert.ok(/\.(webp|jpe?g)$/.test(b.src),b.src);
+    assert.ok(fs.statSync(path.join(root,b.src)).size<300000,b.src);
+  }
 });
 test('every scene uses known cutouts and atlases stay small',()=>{
-  for(const [name,scene] of Object.entries(SCENES.scenes))for(const [key] of scene.items)assert.ok(SCENES.sprites[key]||['cloth','twig'].includes(key),`${name}: ${key}`);
+  for(const [name,scene] of Object.entries(SCENES.scenes))for(const [key] of scene.items)assert.ok(SCENES.sprites[key]||key==='cloth',`${name}: ${key}`);
+  assert.ok(SCENES.cutoutPaths.length>0);
+  for(const asset of SCENES.cutoutPaths)assert.ok(fs.statSync(path.join(root,asset)).size<100000,asset);
   for(const asset of SCENES.atlasPaths)assert.ok(fs.statSync(path.join(root,asset)).size<350000);
   for(const name of sceneNames)assert.ok(SCENES.render(name).includes('class="sprite'));
+});
+test('standalone cutouts keep geometry, conditions and mirrored facing',()=>{
+  const html=SCENES.render('watching');
+  assert.ok(html.includes('data-flip="1"'));
+  assert.ok(html.includes('url(assets/paper/cutouts/philippe-spyglass.webp)'));
+  const [key,x,y,w,z]=SCENES.scenes.watching.items.find(([key])=>key==='spyglass');
+  const style=html.match(new RegExp(`data-sprite="${key}"[^>]*style="([^"]+)"`))?.[1];
+  assert.ok(style?.includes(`--x:${x}%;--y:${y}%;--w:${w}%;--z:${z};`));
+  const full=SCENES.scenes['twig-full'].items.slice(1),solid=full.filter(x=>x[5].unless),glass=full.filter(x=>x[5].when);
+  assert.deepEqual(solid.map(x=>x.slice(0,5)),glass.map(x=>x.slice(0,5)));
+  for(const x of [...solid,...glass])assert.ok(/^crystal-[abc]$/.test(x[0]));
+});
+test('the Open Graph image is a small web derivative on disk',()=>{
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+  const url=new URL(/<meta property="og:image" content="([^"]+)"/.exec(html)[1]);
+  const asset=url.pathname.replace('/stendhal/','');
+  assert.ok(/\.jpe?g$/.test(asset),asset);
+  assert.ok(fs.statSync(path.join(root,asset)).size<300000,asset);
 });
 test('links to any chapter or section resolve; unknown and malformed links open the cover',()=>{
   const places=F.places(book);
@@ -103,6 +126,13 @@ test('the no-script edition holds every sentence, unfolded, and runs no script',
   for(const c of book.chapters.slice(1))assert.ok(html.includes(`<section id="${c.id}">`));
   assert.ok(!html.includes('<script')&&!html.includes('<textarea')&&!html.includes('<button'));
   assert.ok(!/<details class="(note|reveal)"(?! open)/.test(html.replace(/ data-reveal="[^"]*"/g,'')));
+});
+test('the build ships every web image and excludes PNG masters',()=>{
+  build();
+  const files=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(d=>d.isDirectory()?files(path.join(dir,d.name)):[path.join(dir,d.name)]);
+  const out=path.join(root,'_site');
+  assert.ok(!files(out).some(p=>/\.png$/i.test(p)));
+  for(const file of files(path.join(root,'assets')).filter(p=>/\.(webp|jpg)$/.test(p)))assert.ok(fs.existsSync(path.join(out,path.relative(root,file))),file);
 });
 test('interface wording is complete',()=>{
   const used=new Set();

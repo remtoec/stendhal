@@ -38,6 +38,7 @@
 | `reader-model.js` | 連結定位、本機儲存資料的驗證 |
 | `reader.js` | 閱讀介面：換章、場景、目錄 |
 | `style.css` | 版面與紙藝樣式，手機優先 |
+| `scripts/art.py` | 從 PNG 原稿重製網站用的 WebP 切圖、章節圖與 JPEG 分享卡 |
 | `scripts/build.js` | 產生 `_site/`：加上版本識別的網站，以及 `read.html` |
 | `tests/book.test.js` | 格式、內容完整性、連結、儲存資料、完整文字版 |
 
