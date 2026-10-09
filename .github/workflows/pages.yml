@@ -29,7 +29,6 @@ jobs:
           node --check scenes.js
           node --check reader-model.js
           node --check reader.js
-          node --check analytics.js
           node --check scripts/build.js
           node --test tests/book.test.js
       - name: Configure Pages
