@@ -11,6 +11,29 @@ const root=path.join(__dirname,'..'),out=path.join(root,'_site');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const COPY=['content','assets','favicon.svg','.nojekyll','style.css','book-format.js','scenes.js','reader-model.js','reader.js','preview.html'];
 
+function webAnalytics(){
+  const token=(process.env.CF_WEB_ANALYTICS_TOKEN||'').trim();
+  if(!token)return null;
+  if(!/^[A-Za-z0-9_-]+$/.test(token))throw new Error('CF_WEB_ANALYTICS_TOKEN contains unexpected characters.');
+  return {
+    tag:`<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${JSON.stringify({token})}'></script>`,
+    privacy:'<p>網站使用不設 Cookie 的匿名流量統計，只記錄整體瀏覽量、來源和效能資料，不會識別個別讀者。</p>'
+  };
+}
+
+function addAnalytics(html,analytics,{privacy=false}={}){
+  if(!analytics)return html;
+  let result=html;
+  if(privacy){
+    const marker='<div class="privacy-note"><p>閱讀位置與設定只儲存在這個瀏覽器，不會傳送給網站作者。</p></div>';
+    const replacement='<div class="privacy-note"><p>閱讀位置與設定只儲存在這個瀏覽器，不會傳送給網站作者。</p>'+analytics.privacy+'</div>';
+    if(!result.includes(marker))throw new Error('Analytics privacy marker not found in index.html.');
+    result=result.replace(marker,replacement);
+  }
+  if(!result.includes('</body>'))throw new Error('Cannot add Web Analytics: </body> not found.');
+  return result.replace('</body>',`${analytics.tag}\n</body>`);
+}
+
 function readingEdition(book,ui){
   const [cover,...chapters]=book.chapters,esc=F.esc;
   const name=c=>esc(c.label?`${c.label}｜${c.title}`:c.title);
@@ -34,14 +57,19 @@ function build(){
   const book=F.parse(read('content/book.md')),ui=JSON.parse(read('content/ui.json'));
   const problems=F.problems(book,Object.keys(SCENES.scenes));
   if(problems.length){console.error('content/book.md：\n- '+problems.join('\n- '));process.exit(1);}
+  const analytics=webAnalytics();
   fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out);
   for(const item of COPY)fs.cpSync(path.join(root,item),path.join(out,item),{recursive:true,filter:source=>path.extname(source).toLowerCase()!=='.png'});
   // Pin the stylesheet and scripts to their content hash, so a deploy never mixes old and new files.
   const version=file=>createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex').slice(0,12);
   const pin=html=>html.replace(/(href|src)="(style\.css|[\w-]+\.js)"/g,(_,attribute,file)=>`${attribute}="${file}?v=${version(file)}"`);
-  fs.writeFileSync(path.join(out,'index.html'),pin(read('index.html')));
-  fs.writeFileSync(path.join(out,'read.html'),pin(readingEdition(book,ui)));
-  console.log(`_site/ ready: ${book.chapters.length} chapters, ${F.places(book).length-book.chapters.length} sections.`);
+  fs.writeFileSync(path.join(out,'index.html'),pin(addAnalytics(read('index.html'),analytics,{privacy:true})));
+  fs.writeFileSync(path.join(out,'read.html'),pin(addAnalytics(readingEdition(book,ui),analytics)));
+  if(analytics){
+    const preview=path.join(out,'preview.html');
+    fs.writeFileSync(preview,addAnalytics(fs.readFileSync(preview,'utf8'),analytics));
+  }
+  console.log(`_site/ ready: ${book.chapters.length} chapters, ${F.places(book).length-book.chapters.length} sections.${analytics?' Web Analytics enabled.':''}`);
 }
 if(require.main===module)build();
 module.exports={build,readingEdition};

@@ -29,10 +29,13 @@ jobs:
           node --check scenes.js
           node --check reader-model.js
           node --check reader.js
+          node --check scripts/build.js
           node --test tests/book.test.js
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Build the site and the full-text edition
+        env:
+          CF_WEB_ANALYTICS_TOKEN: ${{ vars.CF_WEB_ANALYTICS_TOKEN }}
         run: node scripts/build.js
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
