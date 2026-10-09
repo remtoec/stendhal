@@ -1,0 +1,6 @@
+_site/
+.claude/
+# Working sources kept out of the public repo
+docs/Adaptation.md
+docs/Ernestine.epub
+docs/NOL_V2_Chapter11.md

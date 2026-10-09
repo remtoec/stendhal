@@ -1,69 +1,62 @@
 # 愛，如何誕生
 
-一本關於愛與想像的繁體中文紙藝立體書。按事件閱讀司湯達〈埃內斯蒂娜，或愛的誕生〉，再讀 Irving Singer 的辯護與批評。
+一本放在口袋裡的繁體中文紙藝立體書，寫給讀書會的朋友。沿着花束與字條，讀司湯達筆下蒂娜（原名 Ernestine）愛上一個人的七個階段；每一步有一張旁注，最後一章跟着 Irving Singer 細看「結晶」這個比喻：愛是看錯了人，還是珍惜一個人？
 
 **網站：** https://remtoec.github.io/stendhal/  
 **完整文字版：** https://remtoec.github.io/stendhal/read.html
 
-這是故事節述與哲學導讀，並非逐句全譯。七階段只作閱讀書籤，不是科學量表或人人必經的戀愛流程。
+這是故事節述與哲學導讀，並非逐句全譯。七階段是司湯達的文學與心理分析，不是科學量表或人人必經的戀愛流程。
 
-## 第二版
+## 第三版
 
-- 25 個短篇頁面：封面、18 頁故事、6 頁哲學導讀與討論。
-- 以獨立透明紙片組合湖泊、古堡、橡樹、人物及物件；翻頁時景物先收合、紙頁轉動、新景物依次立起。
-- 紙角可點按或拖曳；支援反向翻頁、回彈取消、鍵盤左右鍵、瀏覽器返回及片段連結。動畫期間不接受重複翻頁。
-- 白玫瑰的手帕、結晶推想、被拿走的花束、人物的兩個視角及結尾紙瓣，均有相應的文字說明。
-- 手機依序顯示標題、短景物、正文；一般直向捲動不會被翻頁手勢攔截。
-- 跟隨系統的減少動態設定，也可自行選擇；提供較大字體及無 JavaScript 的完整文字版。
-- 閱讀位置、展開狀態、選題和讀前／讀後筆記儲存於本機；無帳戶、無追蹤、無後端。筆記可下載，也可清除。
-- 保留九幅原版插畫，可選擇展開觀看。結尾插畫在揭開最後紙瓣後才出現。
-
-## 內容修訂
-
-1. 恢復宴會之後的男方插敘，補回他刻意使她猜疑、搶先拿走花束的行動。
-2. 修正求婚後台詞次序，區分被撞破的驚慌與稍後的冷峻回應。
-3. 分清人物所想、敘述者的解釋、辛格的概括及本書的問題。結尾特別指出辛格概括與法文敘述之間的落差。
-4. 統一中文姓名、稱謂與語氣；保留年齡的自我說服、敘述者的幽默及法國舊制距離的含混，避免誤譯。
-5. 哲學導讀區分「誤認事實」與「賦予價值」，並補上坦誠與操控、真愛可消逝、長久共同生活的理論空白。
-6. 說明身體親密與激情可以相容、互惠與平等的重要，以及鹽晶比喻的限制。
+- **文字與網站分開。** 全書文字只在 [`content/book.md`](content/book.md)，介面短句在 `content/ui.json`。改字、增刪章節不必改程式，寫法見 [`content/README.md`](content/README.md)。
+- **為手機而設。** 一章一個畫面，直向捲動閱讀；橫向輕掃、底部按鈕或鍵盤左右鍵換章。底部七顆紙晶隨階段亮起，點按即是目錄。
+- **新的改編。** 以七個階段為章：序（下雨天的故事）、一至七、插敘（菲利普的一邊）、尾聲、故事以外。樹洞裡的字條以紙條呈現；每章末有一張旁注和一個可以聊下去的問題。
+- **為一般讀者而寫。** 只點名司湯達和 Irving Singer（保留英文，方便搜尋），用平常的話談內容；讀完即完整，沒有要動筆的練習。
+- **「結晶」的比喻。** 最後一章讓讀者親手令鹽礦裡的樹枝長出晶體，再換一種看法：晶體蓋住了樹枝，還是仍然看得見它。
+- 紙藝場景在捲到眼前時立起；白玫瑰的手帕、結晶的推想、被拿走的花束和結尾，由讀者自己揭開。
+- 可調文字大小與動態；無 JavaScript 時有完整文字版。閱讀位置和設定只存在本機。
 
 ## 來源
 
-- 司湯達〈Ernestine, ou la naissance de l’amour〉，法文文本：[Wikisource](https://fr.wikisource.org/wiki/Stendhal_-_De_l%E2%80%99amour,_II,_1927,_%C3%A9d._Martineau/Ernestine)。
+- 司湯達〈Ernestine, ou la naissance de l’amour〉，法文文本：[Wikisource](https://fr.wikisource.org/wiki/Stendhal_-_De_l%E2%80%99amour,_II,_1927,_%C3%A9d._Martineau/Ernestine)；情節與對白依據一份繁體中文全譯本。
 - 司湯達《論愛情》第二章：[De la naissance de l’amour](https://fr.wikisource.org/wiki/De_l%E2%80%99Amour/II._De_la_naissance_de_l%E2%80%99amour)。
-- Irving Singer, *The Nature of Love*, vol. 2, *Courtly and Romantic*, ch. 11。依據專案提供的章節文本節述；各頁註釋以段首定位。原章不隨網站重刊。
+- Irving Singer, *The Nature of Love*, vol. 2, *Courtly and Romantic*, ch. 11。依據該章的中文譯稿節述；原章不隨網站重刊。
+- 全譯本、Singer 章節的譯稿與七階段改編草稿是編寫時的參考資料，不隨原始碼公開。
 
-人物中文譯名為本版選擇。插畫及紙藝素材以 AI 輔助製作。司湯達與辛格的同場對談是想像場景，並非歷史事件。
+男主角與其他人物的中文譯名沿用全譯本；女主角簡稱蒂娜（Tina）。插畫及紙藝素材以 AI 輔助製作（見 `docs/paper-art.md`）。司湯達與 Irving Singer 的同場對談是想像場景，並非歷史事件。
 
-## 本機預覽與檔案
+## 檔案
 
-不需要安裝套件、打包或 API 金鑰：
+| 檔案 | 用途 |
+| --- | --- |
+| `content/book.md` | 全書文字 |
+| `content/ui.json` | 介面短句 |
+| `book-format.js` | 讀懂 `book.md`、檢查格式、轉成網頁；瀏覽器與建置共用 |
+| `scenes.js` | 紙藝場景：紙片的位置，以及哪些紙片隨讀者的動作出現 |
+| `reader-model.js` | 連結定位、本機儲存資料的驗證 |
+| `reader.js` | 閱讀介面：換章、場景、目錄 |
+| `style.css` | 版面與紙藝樣式，手機優先 |
+| `scripts/build.js` | 產生 `_site/`：加上版本識別的網站，以及 `read.html` |
+| `tests/book.test.js` | 格式、內容完整性、連結、儲存資料、完整文字版 |
+
+## 本機預覽
+
+不需要安裝套件或 API 金鑰。網站直接讀取 `content/book.md`，改完重新整理即可：
 
 ```sh
 python3 -m http.server 8000
 ```
 
-開啟 `http://localhost:8000`。`preview.html` 可在同一瀏覽器以 320、390、768、1280 px 寬度檢查版面；這是響應式排版預覽，不等於實體裝置測試。
+開啟 `http://localhost:8000`。`preview.html` 可用 320、390、768、1280 px 寬度並排檢查。
 
-| 檔案 | 用途 |
-| --- | --- |
-| `content.js` | 故事、註釋、來源、階段及討論題 |
-| `scenes.js` | 分層素材對應與場景組合 |
-| `reader-model.js` | 導航狀態、拖曳門檻、儲存資料驗證 |
-| `story.js` | 閱讀介面、紙頁動畫、手勢、筆記 |
-| `style.css` | 紙張、立體景物、響應式與無障礙樣式 |
-| `assets/paper/` | 三張透明 3×2 WebP 素材表，合計約 0.70 MB |
-| `read.html` | 完整靜態文字版，由內容檔產生 |
-| `tests/reader.test.js` | 導航、取消、舊連結、資料完整性測試 |
-
-修改內容後，同步產生文字版並測試：
+檢查與建置（推送 `main` 後，GitHub Actions 會自動做同樣的事並部署）：
 
 ```sh
-node scripts/build-site.js
-node --test tests/reader.test.js
-node --check story.js
+node --test tests/book.test.js
+node scripts/build.js
 ```
 
-`build-site.js` 同時按檔案雜湊更新樣式與腳本的版本識別，避免部署後混用瀏覽器快取中的舊檔。
+`_site/` 是建置結果，不納入版本控制：樣式與腳本連結帶有內容雜湊，避免部署後混用瀏覽器快取的舊檔；`read.html` 也在這裡產生。
 
-推送 `main` 後，GitHub Actions 驗證並部署 GitHub Pages。圖片載入失敗時回退至原插畫，正文仍然可讀。`localStorage` 被停用時，閱讀照常，筆記會提示無法永久儲存。
+字體經 Google Fonts 載入（霞鶩文楷、思源宋體、Cormorant Garamond）；刪去 `index.html` 裡標明的三行，就會改用裝置內建字體。`localStorage` 被停用時，閱讀照常，只是不會記住讀到哪裡。

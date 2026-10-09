@@ -23,20 +23,17 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-      - name: Check scripts and reader invariants
+      - name: Check the text file and the reader
         run: |
-          node --check content.js
+          node --check book-format.js
           node --check scenes.js
           node --check reader-model.js
-          node --check story.js
-          node --test tests/reader.test.js
+          node --check reader.js
+          node --test tests/book.test.js
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Prepare static website
-        run: |
-          mkdir -p _site
-          cp index.html read.html preview.html style.css content.js scenes.js reader-model.js story.js favicon.svg .nojekyll _site/
-          cp -R assets _site/assets
+      - name: Build the site and the full-text edition
+        run: node scripts/build.js
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
