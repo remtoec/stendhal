@@ -9,7 +9,7 @@ const F=require('../book-format.js');
 const SCENES=require('../scenes.js');
 const root=path.join(__dirname,'..'),out=path.join(root,'_site');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
-const COPY=['content','assets','favicon.svg','.nojekyll','style.css','book-format.js','scenes.js','reader-model.js','reader.js','preview.html'];
+const COPY=['content','assets','favicon.svg','.nojekyll','style.css','book-format.js','scenes.js','reader-model.js','reader.js','preview.html','analytics.html','analytics.css','analytics.js'];
 
 function webAnalytics(){
   const token=(process.env.CF_WEB_ANALYTICS_TOKEN||'').trim();
@@ -62,9 +62,10 @@ function build(){
   for(const item of COPY)fs.cpSync(path.join(root,item),path.join(out,item),{recursive:true,filter:source=>path.extname(source).toLowerCase()!=='.png'});
   // Pin the stylesheet and scripts to their content hash, so a deploy never mixes old and new files.
   const version=file=>createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex').slice(0,12);
-  const pin=html=>html.replace(/(href|src)="(style\.css|[\w-]+\.js)"/g,(_,attribute,file)=>`${attribute}="${file}?v=${version(file)}"`);
+  const pin=html=>html.replace(/(href|src)="([\w-]+\.(?:css|js))"/g,(_,attribute,file)=>`${attribute}="${file}?v=${version(file)}"`);
   fs.writeFileSync(path.join(out,'index.html'),pin(addAnalytics(read('index.html'),analytics,{privacy:true})));
   fs.writeFileSync(path.join(out,'read.html'),pin(addAnalytics(readingEdition(book,ui),analytics)));
+  fs.writeFileSync(path.join(out,'analytics.html'),pin(read('analytics.html')));
   if(analytics){
     const preview=path.join(out,'preview.html');
     fs.writeFileSync(preview,addAnalytics(fs.readFileSync(preview,'utf8'),analytics));
