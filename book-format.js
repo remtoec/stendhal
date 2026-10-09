@@ -111,7 +111,7 @@ const BOOK_FORMAT = (() => {
     const epigraph=first?.type==='p'?`<p class="epigraph">${inline(first.text)}</p>`:'';
     const lead=blocksHTML(first?.type==='p'?rest:chapter.lead,options);
     return `<header class="hero" data-kind="${esc(chapter.kind)}">`
-      +(chapter.label?`<p class="seal" aria-hidden="true">${esc(chapter.label)}</p>`:'')
+      +(chapter.label?`<p class="tag" aria-hidden="true">${esc(chapter.label)}</p>`:'')
       +(chapter.en?`<p class="hero-en" lang="fr">${esc(chapter.en)}</p>`:'')
       +`<${h} class="hero-title"${options.static?'':' id="chapter-title" tabindex="-1"'}>${chapter.label?`<span class="sr-only">${esc(chapter.label)}　</span>`:''}${inline(chapter.title)}</${h}>`
       +epigraph+sceneHTML(chapter,options)+lead+'</header>'

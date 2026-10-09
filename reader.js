@@ -136,7 +136,7 @@
   });
 
   // Dialogs: contents, settings, about.
-  $('toc').innerHTML='<ol class="toc">'+chapters.map(c=>`<li><a class="toc-chapter" href="#${c.id}">${c.label?`<span class="seal small" aria-hidden="true">${F.esc(c.label)}</span>`:''}<span>${c.label?`<span class="sr-only">${F.esc(c.label)}　</span>`:''}${F.esc(c.title)}</span></a>${c.beats.length?`<ol>${c.beats.map(b=>`<li><a href="#${b.id}">${F.esc(b.title)}</a></li>`).join('')}</ol>`:''}</li>`).join('')+'</ol>';
+  $('toc').innerHTML='<ol class="toc">'+chapters.map(c=>`<li><a class="toc-chapter" href="#${c.id}">${c.label?`<span class="tag small" aria-hidden="true">${F.esc(c.label)}</span>`:''}<span>${c.label?`<span class="sr-only">${F.esc(c.label)}　</span>`:''}${F.esc(c.title)}</span></a>${c.beats.length?`<ol>${c.beats.map(b=>`<li><a href="#${b.id}">${F.esc(b.title)}</a></li>`).join('')}</ol>`:''}</li>`).join('')+'</ol>';
   if(book.about)$('about').innerHTML=`<h2>${F.esc(book.about.title)}</h2>`+F.blocksHTML(book.about.lead);
   document.querySelectorAll('[data-dialog]').forEach(button=>button.addEventListener('click',()=>{
     document.querySelector('dialog[open]')?.close();$(button.dataset.dialog).showModal();
