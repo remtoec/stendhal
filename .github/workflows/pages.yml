@@ -35,7 +35,7 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build the site and the full-text edition
         env:
-          CF_WEB_ANALYTICS_TOKEN: ${{ vars.CF_WEB_ANALYTICS_TOKEN }}
+          CF_WEB_ANALYTICS_TOKEN: 24942823200e46d4988b81858f665147
         run: node scripts/build.js
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
