@@ -3,7 +3,7 @@
 // scripts/build.js (Node), so the text lives in one Markdown file and nowhere else.
 // The format is described in content/README.md.
 const BOOK_FORMAT = (() => {
-  const CONTAINERS=['note','reveal','crystals','voices'];
+  const CONTAINERS=['note','reveal','crystals','voices','stages'];
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const inline=s=>esc(s)
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
@@ -77,6 +77,7 @@ const BOOK_FORMAT = (() => {
     for(const b of everyBlock(book)){
       if(b.args&&!CONTAINERS.includes(b.type))out.push(`不認得的方塊「::: ${b.type}」。可用的方塊：${CONTAINERS.join('、')}。`);
       if((b.type==='reveal'||b.type==='crystals')&&!b.args[0])out.push(`「::: ${b.type}」後面要有一個名稱。`);
+      if(b.type==='stages')for(const i of (b.blocks.find(x=>x.type==='list')||{items:[]}).items)if(!book.chapters.some(c=>c.id===i.label))out.push(`「::: stages」裡的「${i.label||i.text}」不是任何一章的 id。`);
     }
     const stages=book.chapters.map(c=>c.stage).filter(Boolean);
     if(new Set(stages).size!==stages.length)out.push('有兩個章節用了同一個 stage 編號。');
@@ -84,6 +85,7 @@ const BOOK_FORMAT = (() => {
   }
 
   // options.static: the no-JavaScript edition (everything unfolded, no scenes or buttons).
+  // options.book: the whole book, so a recap can borrow each chapter's name and opening picture.
   // options.scene(name): returns the inner HTML of a paper scene.
   function blocksHTML(blocks,options={}){
     const items=b=>(b.blocks.find(x=>x.type==='list')||{items:[]}).items;
@@ -96,6 +98,11 @@ const BOOK_FORMAT = (() => {
         case 'note':return `<details class="note"${options.static?' open':''}><summary><span class="note-label">${inline(b.args[0])}</span>${b.args[1]?`<span class="note-title">${inline(b.args[1])}</span>`:''}</summary><div class="note-body">${blocksHTML(b.blocks,options)}</div></details>`;
         case 'reveal':return `<details class="reveal" data-reveal="${esc(b.args[0])}"${options.static?' open':''}><summary><span class="when-closed">${inline(b.args[1]||'')}</span><span class="when-open">${inline(b.args[2]||b.args[1]||'')}</span></summary><div class="reveal-body">${blocksHTML(b.blocks,options)}</div></details>`;
         case 'crystals':return `<div class="crystals" data-crystals="${esc(b.args[0])}"><ol>${items(b).map(i=>`<li><strong>${inline(i.label||'')}</strong><span>${inline(i.text)}</span></li>`).join('')}</ol>${options.static?'':`<button type="button" class="paper-button" data-more>${inline(b.args[1]||'')}</button>`}</div>`;
+        case 'stages':return `<ol class="stages">${items(b).map(i=>{
+          const c=options.book?.chapters.find(c=>c.id===i.label);if(!c)return '';
+          const plate=c.lead.find(x=>x.type==='image');
+          return `<li><a href="#${esc(c.id)}">${plate?`<img src="${esc(plate.src)}" alt="" width="1200" height="1200" loading="lazy" decoding="async">`:''}<span><strong>${esc(c.label?c.label+'　'+c.title:c.title)}</strong>${inline(i.text)}</span></a></li>`;
+        }).join('')}</ol>`;
         case 'voices':return `<div class="voices">${items(b).map(i=>`<div class="voice"><h3>${inline(i.label||'')}</h3><p>${inline(i.text)}</p></div>`).join('')}</div>`;
         default:return '';
       }

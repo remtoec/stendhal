@@ -22,7 +22,7 @@ function readingEdition(book,ui){
 <header class="edition-head"><a href="index.html">← ${esc(ui.editionBack)}</a><h1>${esc(cover.title)}</h1><p>${esc(ui.editionLead)}</p>${F.blocksHTML(cover.lead,{static:true})}
 <nav aria-label="${esc(ui.editionContents)}"><details><summary>${esc(ui.editionContents)}</summary><ol>${chapters.map(c=>`<li><a href="#${c.id}">${name(c)}</a></li>`).join('')}</ol></details></nav></header>
 <main>
-${chapters.map(c=>`<section id="${c.id}">${F.chapterHTML(c,{static:true})}<p class="edition-return"><a href="index.html#${c.id}">${esc(ui.editionReturn)} ↗</a></p></section>`).join('\n')}
+${chapters.map(c=>`<section id="${c.id}">${F.chapterHTML(c,{static:true,book})}<p class="edition-return"><a href="index.html#${c.id}">${esc(ui.editionReturn)} ↗</a></p></section>`).join('\n')}
 </main>
 ${book.about?`<footer id="about"><h2>${esc(book.about.title)}</h2>${F.blocksHTML(book.about.lead,{static:true})}</footer>`:''}
 </body>

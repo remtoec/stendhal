@@ -60,7 +60,7 @@
     current=index;
     const chapter=chapters[index];
     main.dataset.kind=chapter.kind;
-    main.innerHTML=problemsHTML+F.chapterHTML(chapter,{scene:S.render,sceneLabel:ui.sceneLabel})+endHTML(index);
+    main.innerHTML=problemsHTML+F.chapterHTML(chapter,{scene:S.render,sceneLabel:ui.sceneLabel,book})+endHTML(index);
     sceneWatcher.disconnect();beatWatcher.disconnect();
     main.querySelectorAll('.scene').forEach(scene=>{applyScene(scene);sceneWatcher.observe(scene);});
     main.querySelectorAll('.beat').forEach(beat=>beatWatcher.observe(beat));

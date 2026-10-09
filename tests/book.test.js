@@ -37,6 +37,10 @@ const sample=`# 一｜欣賞
 <b>不是標籤</b>
 :::
 
+::: stages
+- one｜回顧一句
+:::
+
 # 關於
 <!-- id: about | kind: about -->
 - **來源**：說明
@@ -48,7 +52,7 @@ test('the Markdown format: chapters, sections, settings and every kind of block'
   assert.deepEqual([c.id,c.label,c.title,c.stage,c.en,c.kind],['one','一','欣賞',1,'Admiration','story']);
   assert.deepEqual(c.lead.map(x=>x.type),['p','image']);
   assert.deepEqual([beat.id,beat.scene,beat.caption],['first','rose','說明：帶冒號']);
-  assert.deepEqual(beat.blocks.map(x=>x.type),['p','slip','reveal','crystals','note']);
+  assert.deepEqual(beat.blocks.map(x=>x.type),['p','slip','reveal','crystals','note','stages']);
   assert.equal(beat.blocks[0].text,'第一行接着同一段。');
   assert.deepEqual([beat.blocks[1].lines,beat.blocks[1].by],[['紙條內容'],'署名']);
   assert.deepEqual(beat.blocks[2].args,['rose','打開','合上']);
@@ -56,16 +60,17 @@ test('the Markdown format: chapters, sections, settings and every kind of block'
   assert.deepEqual(F.problems(b,sceneNames),[]);
 });
 test('text is escaped; only bold and links are turned into HTML; the scene sits beside what it answers to',()=>{
-  const html=F.chapterHTML(F.parse(sample).chapters[0],{scene:()=>'<i>scene</i>'});
+  const parsed=F.parse(sample),html=F.chapterHTML(parsed.chapters[0],{scene:()=>'<i>scene</i>',book:parsed});
+  assert.ok(html.includes('<a href="#one"><img src="assets/x.webp"')&&html.includes('<strong>一　欣賞</strong>回顧一句'));
   assert.ok(html.includes('&lt;b&gt;不是標籤&lt;/b&gt;'));
   assert.ok(html.includes('<strong>粗體</strong>'));
   assert.ok(html.includes('<a href="https://example.org/a_b" target="_blank" rel="noopener noreferrer">連結</a>'));
   assert.ok(html.indexOf('class="slip"')<html.indexOf('class="scene"')&&html.indexOf('class="scene"')<html.indexOf('data-reveal="rose"'));
 });
 test('mistakes in the text file are reported in plain words',()=>{
-  const bad=F.parse('# 甲\n<!-- id: a | stage: 1 -->\n## 乙\n<!-- id: a | scene: nowhere -->\n::: box x\n:::\n::: reveal\n:::\n## 丙\n# 丁\n<!-- id: Bad Id | stage: 1 -->\n');
+  const bad=F.parse('# 甲\n<!-- id: a | stage: 1 -->\n## 乙\n<!-- id: a | scene: nowhere -->\n::: box x\n:::\n::: reveal\n:::\n::: stages\n- nowhere｜x\n:::\n## 丙\n# 丁\n<!-- id: Bad Id | stage: 1 -->\n');
   const problems=F.problems(bad,sceneNames).join('\n');
-  for(const expected of ['id「a」重複','場景「nowhere」不存在','「::: box」','「::: reveal」後面要有一個名稱','「丙」缺少 id','「Bad Id」','同一個 stage'])assert.ok(problems.includes(expected),expected);
+  for(const expected of ['id「a」重複','場景「nowhere」不存在','「::: box」','「::: reveal」後面要有一個名稱','「nowhere」不是任何一章的 id','「丙」缺少 id','「Bad Id」','同一個 stage'])assert.ok(problems.includes(expected),expected);
   assert.ok(F.problems(F.parse(''),sceneNames).length);
 });
 // These checks follow whatever the text file says; they do not pin its wording or its shape.
